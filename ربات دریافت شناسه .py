@@ -1,0 +1,19 @@
+from rubpy import BotClient
+from rubpy.bot.models import Update
+from rubpy.bot import filters
+
+bot = BotClient('your-bot-token')
+
+@bot.on_update(filters.private, filters.commands('start'))
+async def handle_start(client: BotClient, update: Update):
+    if update.new_message:
+        text = (
+            "👤 شناسه کاربری شما:\n`{user_id}`\n\n"
+            "💬 شناسه چت شما:\n`{chat_id}`"
+        ).format(
+            user_id=update.new_message.sender_id,
+            chat_id=update.chat_id
+        )
+        await update.reply(text)
+
+bot.run()
